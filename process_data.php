@@ -1,9 +1,9 @@
 <?php
-// Koneksi ke database (sesuaikan dengan konfigurasi database Anda)
+// Koneksi ke database
 $localhost = 'localhost';
-$username = 'id19086610_alvin';
+$username = 'id19086610_magang';
 $password = 'Msib.1122';
-$database = 'magang';
+$database = 'id19086610_alvin';
 
 $conn = new mysqli($localhost, $username, $password, $database);
 
@@ -13,7 +13,17 @@ if ($conn->connect_error) {
 
 // Fungsi untuk menyimpan data ke database
 function saveToDatabase($name, $age, $city, $conn) {
+    $name = strtoupper($name); // Ubah nama menjadi UPPERCASE
     $created_at = date('Y-m-d H:i:s');
+
+    // Ambil angka usia dari input
+    preg_match('/\b(\d+)\b/', $age, $matches);
+    if (!empty($matches)) {
+        $age = $matches[0];
+    } else {
+        $age = 0; // Jika tidak ada angka usia dalam input, set usia ke 0
+    }
+
     $sql = "INSERT INTO users (NAME, AGE, CITY, CREATED_AT) VALUES ('$name', '$age', '$city', '$created_at')";
     if ($conn->query($sql) === TRUE) {
         echo "Data berhasil disimpan.";
